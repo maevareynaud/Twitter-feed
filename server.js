@@ -1,3 +1,19 @@
-const http = require('http')
+const { createServer } = require("http")
+const fs = require("fs/promises")
 
-const server = http.createServer()
+const server = createServer()
+
+server.on("request", async (request, response) => {
+  console.log("on request", request.method, request.url)
+
+  if (request.url === "/") {
+    const file = await fs.readFile("./index.html", "utf8")
+    response.writeHead(200)
+    response.end(file)
+  } else {
+    response.writeHead(404)
+    response.end()
+  }
+})
+
+module.exports = server

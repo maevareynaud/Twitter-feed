@@ -1,0 +1,22 @@
+{
+  "name": "twitter-feed",
+  "version": "1.0.0",
+  "description": "Back-end application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maevareynaud/Twitter-feed.git"
+  },
+  "author": "Maeva Reynaud",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maevareynaud/Twitter-feed/issues"
+  },
+  "homepage": "https://github.com/maevareynaud/Twitter-feed#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}

@@ -1,10 +1,49 @@
 <html>
   <head>
     <script>
-      console.log("dans le navigateur")
+      console.log('navigateur')
+      const socket = new WebSocket(`ws://${window.location.hostname}:${window.location.port}`)
+
+      socket.addEventListener("message", function (event){
+        console.log("server message: ", event.data)
+      })
+      
+      socket.addEventListener("open", function(event){
+        console.log("connected : ", event)
+        socket.send("Hello from client")
+      })
     </script>
   </head>
   <body>
-    <h1>Yay</h1>
+    <h1>What is your favorite celebrity?</h1>
+    <input type="text" placeholder="Ex: Donald Trump"></input>
+
+    <div class="ranking">
+      <div class="rank">
+        <h2>Donald Trump</h2>
+        <p>{{ iterations }} tweets</p>
+      </div>
+      <div class="rank">
+        <h2>Jul</h2>
+        <p>{{ iterations }} tweets</p>
+      </div>
+      <div class="rank">
+        <h2>Michael Jordan</h2>
+        <p>{{ iterations }} tweets</p>
+      </div>
+      <div class="rank">
+        <h2>Leonardo DiCaprio</h2>
+        <p>{{ iterations }} tweets</p>
+      </div>
+      <div class="rank">
+        <h2>Steve Jobs</h2>
+        <p>{{ iterations }} tweets</p>
+      </div>
+      <div class="rank">
+        <h2>{{ userData }}</h2>
+        <p>{{ iterations }} tweets</p>
+      </div>
+      
+    </div>
   </body>
 </html>

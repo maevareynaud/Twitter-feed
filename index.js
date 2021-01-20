@@ -1,10 +1,22 @@
 const { pipeline } = require("stream")
-const server = require("./server")
+const WebSocket = require("ws")
+const  server  = require("./server")
 const {connectToTwitter, tweetStream} = require("./twitter")
-const {jsonParser, logger} = require("./process-tweets")
+const {jsonParser, logger, userDetails } = require("./process-tweets")
 
 // server http
 server.listen(3000)
+const wsServer = new WebSocket.Server({ server })
+
+wsServer.on("connection", (client) => {
+  console.log('new connection: ', client)
+
+  client.on("message", (message) => {
+    console.log("message from client: ", message)
+  })
+
+  client.send('Hello from server')
+})
 
 // connexion API Twitter
 connectToTwitter()
@@ -13,6 +25,7 @@ connectToTwitter()
 pipeline(
   tweetStream,
   jsonParser,
+  userDetails,
   logger,
   (err) => {
     if (err) {
@@ -22,6 +35,5 @@ pipeline(
 )
 
 // envoyer des données au client via websocket
-// const wsServer = new WebSocket.Server({
-// server
-// })
+ 
+

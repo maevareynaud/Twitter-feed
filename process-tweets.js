@@ -11,33 +11,90 @@ const jsonParser = new Transform({
 
     }
     this.push(data)
+
     callback()
   }
 })
 
-const userDetails = new Transform({
-  objectMode: true,
+const typeExtractor = new Transform({
+  writableObjectMode: true,
+
   transform(chunk, _, callback) {
-    let content
-    try {
-      //name = chunk.includes.users[0].name
-      //followers = chunk.includes.users[0].public_metrics
-      content = chunk.data
-      if( content.includes('trump') || content.includes('Donald Trump')){
+      let text
+      try {
+          text = chunk.data.text
+          console.log(chunk)
+          this.push(text)
+      } catch (error) {
       }
-    } catch (error) {
-      
-    }
-    this.push(content)
-    callback()
-  } 
+
+      callback()
+  }
 })
+
+/*const textSelector = new Transform({
+  objectMode: true,
+
+  transform(chunk, _, callback) {
+      try {
+          if(chunk.includes('dicaprio')){
+            console.log('trump')
+            const tweetPerson = {
+              person: 'trump',
+              text: chunk.toString()
+            }
+
+            const tweetSorter = JSON.stringify(tweetPerson)
+            this.push(tweetSorter)
+          }
+
+          
+          
+      } catch (error) {
+      }
+
+      callback()
+  }
+})*/
+
+
+const tweetCounter = new Transform({
+  writableObjectMode: true,
+
+  transform(chunk, _, callback) {
+
+    console.log(chunk.matching_rules[0].tag)
+
+    if(chunk.matching_rules[0]){
+      switch(chunk.matching_rules[0].tag){
+        case 'dicaprio' :
+          console.log('trump')
+          break;
+        case 'jul' :
+          console.log('jul')
+          break;
+        default : 
+          console.log('simple')
+      }
+  
+    }
+    
+    this.counter ++
+    
+    this.push(this.counter.toString())
+    
+    callback()
+  }
+})
+
+
+
 
 const logger = new Writable({
   objectMode: true,
   write(chunk, encoding, callback) {
     try {
-      //console.log(JSON.stringify(chunk))
+      console.log(JSON.stringify(chunk))
     } catch (err) {
       // 
     }
@@ -45,8 +102,10 @@ const logger = new Writable({
   }
 })
 
+
 module.exports = {
   jsonParser,
-  userDetails,
-  logger
+  typeExtractor,
+  logger,
+  tweetCounter
 }

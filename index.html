@@ -4,12 +4,32 @@
       console.log('navigateur')
       const socket = new WebSocket(`ws://${window.location.hostname}:${window.location.port}`)
 
-      socket.addEventListener("message", function (event){
-        console.log("server message: ", event.data)
+      socket.addEventListener("message",  async function (event){
+        try {
+          let data = await event.data.text()
+          data = JSON.parse(data)
+
+          const container_counter = document.getElementById('jul')
+          container_counter.innerHTML = data
+          console.log("server message: ", data)
+        } catch(err){
+
+        }
       })
+
+      /*function getInputValue(){
+            // Selecting the input element and get its value 
+            var inputVal = document.getElementById("button_celebrity").value;
+            
+            // Displaying the value
+            alert(inputVal);
+        }*/
 
       socket.addEventListener("open", function(event){
         console.log("connected : ", event)
+
+        
+
 
         socket.send("Hello from client")
       })
@@ -17,7 +37,8 @@
   </head>
   <body>
     <h1>What is your favorite celebrity?</h1>
-    <input type="text" placeholder="Ex: Donald Trump"></input>
+    <input type="text" placeholder="Ex: Donald Trump" id="celebrity_button"></input>
+    <button type="button" onclick="getInputValue();" id="button_celebrity">Voir</button>
 
     <div class="ranking">
       <div class="rank">
@@ -26,15 +47,18 @@
       </div>
       <div class="rank">
         <h2>Jul</h2>
-        <p>{{ jul_terations }} tweets</p>
+        <span id="jul"></span>
+        <p>tweets</p>
       </div>
       <div class="rank">
         <h2>Michael Jordan</h2>
-        <p>{{ iterations }} tweets</p>
+        <span></span>
+        <p>tweets</p>
       </div>
       <div class="rank">
         <h2>Leonardo DiCaprio</h2>
-        <p>{{ iterations }} tweets</p>
+        <span></span>
+        <p>tweets</p>
       </div>
       <div class="rank">
         <h2>Steve Jobs</h2>

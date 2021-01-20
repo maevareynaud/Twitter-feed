@@ -18,6 +18,10 @@ To start the project
 npm start
 ```
 
+### environement variables  
+
+process.env.TWT_BEARER_TOKEN correspond to Twitter BEARER_TOKEN 
+
 ## Processus de développement
 
 ### Récupération des données pour chaque célébrités

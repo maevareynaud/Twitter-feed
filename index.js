@@ -29,7 +29,6 @@ wsServer.on("connection", (client) => {
     tweetCounter.counterUser = 0
 
 
-    console.log('reset')
     addSearchRules([
       {value: clientCelebrity.toString(), tag: clientCelebrity.toString()}
     ])

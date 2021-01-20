@@ -7,9 +7,10 @@
       socket.addEventListener("message", function (event){
         console.log("server message: ", event.data)
       })
-      
+
       socket.addEventListener("open", function(event){
         console.log("connected : ", event)
+
         socket.send("Hello from client")
       })
     </script>
@@ -21,11 +22,11 @@
     <div class="ranking">
       <div class="rank">
         <h2>Donald Trump</h2>
-        <p>{{ iterations }} tweets</p>
+        <p>{{ trump_iterations }} tweets</p>
       </div>
       <div class="rank">
         <h2>Jul</h2>
-        <p>{{ iterations }} tweets</p>
+        <p>{{ jul_terations }} tweets</p>
       </div>
       <div class="rank">
         <h2>Michael Jordan</h2>

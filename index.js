@@ -16,6 +16,10 @@ wsServer.on("connection", (client) => {
   })
 
   client.send('Hello from server')
+
+  tweetStream.on("data", (chunk) => {
+    client.send(chunk)
+  })
 })
 
 // connexion API Twitter

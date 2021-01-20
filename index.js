@@ -14,14 +14,26 @@ const wsServer = new WebSocket.Server({ server })
 
 wsServer.on("connection", (client) => {
 
-
-  console.log('new connection: ', client)
+  let clientCelebrity;
+  //console.log('new connection: ', client)
 
   client.on("message", (message) => {
-    console.log("message from client: ", message)
-    //const userCelebrity
-    //addSearchRules()
-    client.send('Hello from server')
+    clientCelebrity = message
+    resetRules()
+
+    tweetCounter.counterMacron = 0
+    tweetCounter.counterBeyonce = 0
+    tweetCounter.counterZuckerberg = 0
+    tweetCounter.counterDrake = 0
+    tweetCounter.counterDicaprio = 0
+    tweetCounter.counterUser = 0
+
+
+    console.log('reset')
+    addSearchRules([
+      {value: clientCelebrity.toString(), tag: clientCelebrity.toString()}
+    ])
+    //client.send('Hello from server')
   })
 
   client.on("close", () => {
@@ -54,9 +66,10 @@ wsServer.on("connection", (client) => {
           case 'dicaprio' :
               this.counterDicaprio ++;
               break;
-          // case user : 
+          case `${clientCelebrity}` : 
+              this.counterUser ++;
+              break;
           default : 
-            console.log('simple')
         }
       }
       
@@ -66,7 +79,11 @@ wsServer.on("connection", (client) => {
         'drake' : this.counterDrake,
         'zuckerberg' : this.counterZuckerberg,
         'beyonce' : this.counterBeyonce,
-        'dicaprio' : this.counterDicaprio
+        'dicaprio' : this.counterDicaprio,
+        'user': {
+          'name' : clientCelebrity,
+          'counter' : this.counterUser
+        }
       }
 
       console.log(counters)
@@ -81,6 +98,7 @@ wsServer.on("connection", (client) => {
   tweetCounter.counterZuckerberg = 0
   tweetCounter.counterDrake = 0
   tweetCounter.counterDicaprio = 0
+  tweetCounter.counterUser = 0
     
   pipeline(
     tweetStream,

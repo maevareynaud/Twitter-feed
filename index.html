@@ -3,70 +3,88 @@
     <script>
       console.log('navigateur')
       const socket = new WebSocket(`ws://${window.location.hostname}:${window.location.port}`)
+      let inputVal
+
+      function getInputValue(){
+            // Selecting the input element and get its value 
+            inputVal = document.getElementById("celebrity_button").value;
+            socket.send(inputVal)
+      }
 
       socket.addEventListener("message",  async function (event){
         try {
           let data = await event.data.text()
           data = JSON.parse(data)
+          console.log(data)
 
-          const container_counter = document.getElementById('jul')
-          container_counter.innerHTML = data
-          console.log("server message: ", data)
+          
+          const macron_counter = document.getElementById('macron-counter')
+          const drake_counter = document.getElementById('drake-counter')
+          const beyonce_counter = document.getElementById('beyonce-counter')
+          const zuckerberg_counter = document.getElementById('zuckerberg-counter')
+          const dicaprio_counter = document.getElementById('dicaprio-counter')
+          const user_counter = document.getElementById('user-counter')
+          const user_celebrity_name = document.getElementById('user-celebrity-name')
+
+          macron_counter.innerHTML = data.macron
+          drake_counter.innerHTML = data.drake
+          beyonce_counter.innerHTML = data.beyonce
+          zuckerberg_counter.innerHTML = data.zuckerberg
+          dicaprio_counter.innerHTML = data.dicaprio
+          user_counter.innerHTML = data.user.counter
+          user_celebrity_name.innerHTML = data.user.name
+
         } catch(err){
 
         }
       })
 
-      /*function getInputValue(){
-            // Selecting the input element and get its value 
-            var inputVal = document.getElementById("button_celebrity").value;
-            
-            // Displaying the value
-            alert(inputVal);
-        }*/
 
       socket.addEventListener("open", function(event){
         console.log("connected : ", event)
 
         
 
-
-        socket.send("Hello from client")
+        if(inputVal){
+        }
       })
     </script>
   </head>
   <body>
     <h1>What is your favorite celebrity?</h1>
     <input type="text" placeholder="Ex: Donald Trump" id="celebrity_button"></input>
-    <button type="button" onclick="getInputValue();" id="button_celebrity">Voir</button>
+    <button type="button" onclick="getInputValue();">Voir</button>
 
     <div class="ranking">
       <div class="rank">
-        <h2>Donald Trump</h2>
-        <p>{{ trump_iterations }} tweets</p>
-      </div>
-      <div class="rank">
-        <h2>Jul</h2>
-        <span id="jul"></span>
+        <h2>Emmanuel Macron</h2>
+        <span id="macron-counter"></span>
         <p>tweets</p>
       </div>
       <div class="rank">
-        <h2>Michael Jordan</h2>
-        <span></span>
+        <h2>Drake</h2>
+        <span id="drake-counter"></span>
+        <p>tweets</p>
+      </div>
+      <div class="rank">
+        <h2>Mark Zuckerberg</h2>
+        <span id="zuckerberg-counter"></span>
         <p>tweets</p>
       </div>
       <div class="rank">
         <h2>Leonardo DiCaprio</h2>
-        <span></span>
+        <span id="dicaprio-counter"></span>
         <p>tweets</p>
       </div>
       <div class="rank">
-        <h2>Steve Jobs</h2>
-        <p>{{ iterations }} tweets</p>
+        <h2>Beyonce</h2>
+        <span id="beyonce-counter"></span>
+        <p> tweets</p>
       </div>
       <div class="rank">
-        <h2>{{ userData }}</h2>
-        <p>{{ iterations }} tweets</p>
+        <h2 id="user-celebrity-name"></h2>
+        <span id="user-counter"></span>
+        <p> tweets</p>
       </div>
       
     </div>

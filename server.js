@@ -5,7 +5,7 @@ const ws = require("ws")
 const server = createServer()
 
 server.on("request", async (request, response) => {
-  console.log("on request", request.method, request.url)
+  const co = await console.log("on request", request.method, request.url)
 
   if (request.url === "/") {
     const file = await fs.readFile("./index.html", "utf8")

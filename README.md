@@ -54,7 +54,11 @@ qui sont écoutées avec les écouteur d'évènements "message"
 Dans un dernier temps, l'ajout de l'interaction de l'utilisateur à été réalisé. Pour ce faire, il a suffit de transmettre la valeur entrée par l'utilisateur au serveur lors de sa validation. A ce moment la, je reset mes règles pour remettre les compteur à zéro et j'ajoute la nouvelle règle de mon utilisateur. 
 
 
-## Problèmes rencontrés au cours du projet
+## Ma compréhension globale du projet
+
+J'ai eu un peu de mal à comprend comment fonctionnait le WebSocketStream étant donné que je n'avais jamais manipulé les webSockets avant ce projet.
+
+J'ai aussi compris tardivement comment se faisait les connections avec un nouveau client, mais après une explication j'ai compris pourquoi certains objects devaient être créés dans au moment de la connection plutot qu'une seule fois pour que tous les clients puisse avoir leur propre page web sans données d'un autre client qui aurait eu une connection auparavant. 
 
 
 

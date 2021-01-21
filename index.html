@@ -1,7 +1,12 @@
-<html>
-  <head>
-    <script>
-      console.log('navigateur')
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>De qui parles-t-on le plus ?</title>
+
+  <script>
       const socket = new WebSocket(`ws://${window.location.hostname}:${window.location.port}`)
       let inputVal
 
@@ -14,24 +19,20 @@
         try {
           let data = await event.data.text()
           data = JSON.parse(data)
-          console.log(data)
 
+            if(data.user.name){
+              const user_celebrity_name = document.getElementById('user-celebrity-name')
+              const user_counter= document.getElementById('user-counter')
+              user_celebrity_name.innerHTML = data.user.name
+              user_counter.innerHTML = data.user.counter
+            }
+
+          for (const [key, value] of Object.entries(data)) {
+            let personSelector = document.getElementById(key)
+            personSelector.innerHTML = value
+          }
+                    
           
-          const macron_counter = document.getElementById('macron-counter')
-          const drake_counter = document.getElementById('drake-counter')
-          const beyonce_counter = document.getElementById('beyonce-counter')
-          const zuckerberg_counter = document.getElementById('zuckerberg-counter')
-          const dicaprio_counter = document.getElementById('dicaprio-counter')
-          const user_counter = document.getElementById('user-counter')
-          const user_celebrity_name = document.getElementById('user-celebrity-name')
-
-          macron_counter.innerHTML = data.macron
-          drake_counter.innerHTML = data.drake
-          beyonce_counter.innerHTML = data.beyonce
-          zuckerberg_counter.innerHTML = data.zuckerberg
-          dicaprio_counter.innerHTML = data.dicaprio
-          user_counter.innerHTML = data.user.counter
-          user_celebrity_name.innerHTML = data.user.name
 
         } catch(err){
 
@@ -40,16 +41,12 @@
 
 
       socket.addEventListener("open", function(event){
-        console.log("connected : ", event)
-
-        
-
-        if(inputVal){
-        }
+        console.log('socket open')
       })
     </script>
-  </head>
-  <body>
+</head>
+<body>
+  
     <h1>What is your favorite celebrity?</h1>
     <input type="text" placeholder="Ex: Donald Trump" id="celebrity_button"></input>
     <button type="button" onclick="getInputValue();">Voir</button>
@@ -57,35 +54,34 @@
     <div class="ranking">
       <div class="rank">
         <h2>Emmanuel Macron</h2>
-        <span id="macron-counter"></span>
+        <span id="macron">0</span>
         <p>tweets</p>
       </div>
       <div class="rank">
         <h2>Drake</h2>
-        <span id="drake-counter"></span>
+        <span id="drake"0></span>
         <p>tweets</p>
       </div>
       <div class="rank">
         <h2>Mark Zuckerberg</h2>
-        <span id="zuckerberg-counter"></span>
+        <span id="zuckerberg">0</span>
         <p>tweets</p>
       </div>
       <div class="rank">
         <h2>Leonardo DiCaprio</h2>
-        <span id="dicaprio-counter"></span>
+        <span id="dicaprio">0</span>
         <p>tweets</p>
       </div>
       <div class="rank">
         <h2>Beyonce</h2>
-        <span id="beyonce-counter"></span>
+        <span id="beyonce">0</span>
         <p> tweets</p>
       </div>
       <div class="rank">
-        <h2 id="user-celebrity-name"></h2>
-        <span id="user-counter"></span>
+        <h2 id="user-celebrity-name">A vous de jouer</h2>
+        <span id="user-counter">0</span>
         <p> tweets</p>
       </div>
-      
     </div>
   </body>
 </html>

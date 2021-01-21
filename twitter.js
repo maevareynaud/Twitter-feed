@@ -3,7 +3,6 @@ const http = require("https")
 const { Readable} = require("stream")
 
 const TWT_API_HOST = "api.twitter.com"
-//const TWT_API_URL = "/2/tweets/sample/stream?tweet.fields=attachments,author_id,geo,entities&expansions=author_id,attachments.media_keys&media.fields=url&user.fields=public_metrics"
 const TWT_API_SEARCH_PATH = "/2/tweets/search/stream?tweet.fields=attachments,author_id,geo,entities&expansions=author_id,attachments.media_keys&media.fields=url&user.fields=public_metrics"
 const BEARER_TOKEN = process.env.TWT_BEARER_TOKEN
 

@@ -3,7 +3,7 @@ const { pipeline, Transform } = require("stream")
 const WebSocket = require("ws")
 const  server  = require("./server")
 const {connectToTwitter, tweetStream} = require("./twitter")
-const {jsonParser,   typeExtractor } = require("./process-tweets")
+const {jsonParser,  getTweetFromSource } = require("./process-tweets")
 const { getSearchRules, addSearchRules, deleteSearchRules} = require('./search-rules')
 
 
@@ -12,11 +12,20 @@ const { getSearchRules, addSearchRules, deleteSearchRules} = require('./search-r
 server.listen(3000)
 const wsServer = new WebSocket.Server({ server })
 
+// create a passthrough: a transform that does nothing, just passing data through
+const broadcaster = new PassThrough({
+  writableObjectMode: true,
+  readableObjectMode: true
+})
+
 wsServer.on("connection", (client) => {
 
   client.on("close", () => {
     socketStream.end()
   })
+
+  const tweetSource = getTweetFromSource(broadcaster)
+
   
   let clientCelebrity;
 
@@ -97,8 +106,9 @@ wsServer.on("connection", (client) => {
   tweetCounter.counterUser       = 0
     
   pipeline(
-    tweetStream,
-    jsonParser,
+    //tweetStream,
+    tweetSource,
+    //jsonParser,
     tweetCounter,
     socketStream,
     (err) => {
@@ -108,6 +118,11 @@ wsServer.on("connection", (client) => {
     }
   )
 
+  socketStream.on("close", () => {
+    socketStream.destroy()
+    socketStream.destroy() // destroy socketStream to terminate client pipeline
+  })
+
   
 
 })
@@ -115,6 +130,21 @@ wsServer.on("connection", (client) => {
 
 // connexion API Twitter
 connectToTwitter()
+
+pipeline(
+  tweetStream,
+  jsonParser,
+  // add here what transform you want for ALL clients
+  // remember to set objectMode when needed
+  broadcaster,
+  (err) => {
+    console.log("main pipeline ended")
+    if (err) {
+      console.error("main pipeline error: ", err)
+    }
+    console.log(tweetStream)
+  }
+)
 
 //vider puis ajouter les fitres
 async function resetRules(){

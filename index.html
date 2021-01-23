@@ -5,6 +5,58 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>De qui parles-t-on le plus ?</title>
+  <style type="text/css">
+      body {
+        height: 100vh;
+        background-color: #39A2F3;
+        background-image: url('./twitter.svg');
+        font-family: 'Roboto';
+        color: white;
+        font-style: italic;
+        display: flex;
+        justify-content: space-between;
+        max-width: 80vw;
+        margin: auto;
+    }
+
+    h1 {
+      font-size: 3rem;
+    }
+
+    .left-part {
+        font-weight: 800;
+        width: 50%;
+        margin: auto 0;
+    }
+
+    input {
+        font-weight: 300;
+        background-color: transparent;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        border-bottom: 2px solid white;
+        border-color: white;
+    }
+
+    button {
+        border: none;
+        font-weight: 600;
+        font-size: 1.2rem;
+        background-color: transparent;
+    }
+
+    span.not(.number) {
+        color: transparent;
+        -webkit-text-stroke: 1px white;
+    }
+
+    .ranking {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+    }
+  </style>
 
   <script>
       const socket = new WebSocket(`ws://${window.location.hostname}:${window.location.port}`)
@@ -14,6 +66,8 @@
             inputVal = document.getElementById("celebrity_button").value;
             socket.send(inputVal)
       }
+
+
 
       socket.addEventListener("message",  async function (event){
         try {
@@ -31,8 +85,7 @@
             let personSelector = document.getElementById(key)
             personSelector.innerHTML = value
           }
-                    
-          
+
 
         } catch(err){
 
@@ -46,15 +99,18 @@
     </script>
 </head>
 <body>
-  
-    <h1>What is your favorite celebrity?</h1>
-    <input type="text" placeholder="Ex: Donald Trump" id="celebrity_button"></input>
-    <button type="button" onclick="getInputValue();">Voir</button>
+
+    <div class="left-part">
+      <h1>How often is your favourite </br>personality mentioned on</br><span> Twitter </span> ?</h1>
+      <input type="text" placeholder="Ex: Donald Trump" id="celebrity_button" placeholder="enter the name of your favorite celebrity"></input>
+      <button type="button" onclick="getInputValue();">Voir</button>
+    </div>
+    
 
     <div class="ranking">
       <div class="rank">
         <h2>Emmanuel Macron</h2>
-        <span id="macron">0</span>
+        <span class="number" id="macron">0</span>
         <p>tweets</p>
       </div>
       <div class="rank">

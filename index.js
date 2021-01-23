@@ -3,7 +3,7 @@ const { pipeline, Transform } = require("stream")
 const WebSocket = require("ws")
 const  server  = require("./server")
 const {connectToTwitter, tweetStream} = require("./twitter")
-const {jsonParser,   typeExtractor } = require("./process-tweets")
+const {jsonParser} = require("./process-tweets")
 const { getSearchRules, addSearchRules, deleteSearchRules} = require('./search-rules')
 
 

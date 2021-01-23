@@ -2,7 +2,10 @@
 Application NodeJs permettant de voir en temps réel le nombre de Tweets à propos de personnes célèbres.
 
 Concept : 
-L'application demande à l'utilisateur de renseigner sa célébrité préféré et classe cette personne au milieu d'autres personnes célèbres en fonction du nombre de Tweet qui parle d'elle
+L'application demande à l'utilisateur de renseigner sa célébrité préféré et classe cette personne au milieu d'autres personnes célèbres en fonction du nombre de Tweet qui parle d'elle en temps réel.
+
+Justification de la technologie:
+NodeJs répond parfaitement à notre projet puisqu'il permet de répondre à nos besoin de monter en charge grâce à la conception asynchrone. De ce fait, plusieurs requête peuvent être traitées simultanément sans problèmes.
 
 ## Setup
 
@@ -51,14 +54,23 @@ qui sont écoutées avec les écouteur d'évènements "message"
 
 ### Ajout du dynamisme avec le client
 
-Dans un dernier temps, l'ajout de l'interaction de l'utilisateur à été réalisé. Pour ce faire, il a suffit de transmettre la valeur entrée par l'utilisateur au serveur lors de sa validation. A ce moment la, je reset mes règles pour remettre les compteur à zéro et j'ajoute la nouvelle règle de mon utilisateur. 
+Dans un dernier temps, l'ajout de l'interaction de l'utilisateur à été réalisé. Pour ce faire, il a suffit de transmettre la valeur entrée par l'utilisateur au serveur lors de sa validation. A ce moment là, je reset mes règles pour remettre les compteurs à zéro et j'ajoute la nouvelle règle de mon utilisateur. 
 
 
-## Ma compréhension globale du projet
+## Difficultés rencontrées
 
-J'ai eu un peu de mal à comprend comment fonctionnait le WebSocketStream étant donné que je n'avais jamais manipulé les webSockets avant ce projet.
+J'ai eu un peu de mal à comprendre comment fonctionnait le WebSocketStream étant donné que je n'avais jamais manipulé les webSockets avant ce projet.
 
-J'ai aussi compris tardivement comment se faisait les connections avec un nouveau client, mais après une explication j'ai compris pourquoi certains objects devaient être créés dans au moment de la connection plutot qu'une seule fois pour que tous les clients puisse avoir leur propre page web sans données d'un autre client qui aurait eu une connection auparavant. 
+J'ai aussi compris tardivement comment se faisait les connections avec un nouveau client, mais après une explication j'ai compris pourquoi certains objects devaient être créés au moment de la connection plutot qu'une seule fois pour que tous les clients puisse avoir leur propre page web sans données d'un autre client qui aurait eu une connection auparavant.
+
+## Autre
+
+Lorsque vous écrivez un nom, il y a un gros temps de latence entre le moment de la confirmation et le moment de l'apparition des premiers Tweets qui, je pense, viens du fait que l'on doit faire différentes requêtes vers l'API TWitter, à savoir celle de l'ajout d'une règle et celle de récupération des données. 
+
+
+
+
+
 
 
 

@@ -16,25 +16,6 @@ const jsonParser = new Transform({
   }
 })
 
-const typeExtractor = new Transform({
-  writableObjectMode: true,
-
-  transform(chunk, _, callback) {
-      let text
-      try {
-          text = chunk.data.text
-          console.log(chunk)
-          this.push(text)
-      } catch (error) {
-      }
-      callback()
-  }
-})
-
-
-
-
 module.exports = {
-  jsonParser,
-  typeExtractor
+  jsonParser
 }

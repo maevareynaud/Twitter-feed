@@ -65,26 +65,26 @@ wsServer.on("connection", (client) => {
           default : 
         }
       }
-      
-      
-      const counters = {
-        'macron' : this.counterMacron,
-        'drake' : this.counterDrake,
-        'zuckerberg' : this.counterZuckerberg,
-        'beyonce' : this.counterBeyonce,
-        'dicaprio' : this.counterDicaprio,
-        'user': {
-          'name' : clientCelebrity,
-          'counter' : this.counterUser
-        }
-      }
 
-      //console.log(counters)
+      const counters = {
+        "items":[
+          { "type": "auto", "name": 'Emmanuel Macron',  "counter": this.counterMacron},
+          { "type": "auto", "name": 'Marc Zuckerberg', "counter": this.counterZuckerberg},
+          { "type": "auto", "name": 'Beyonce', "counter": this.counterBeyonce},
+          { "type": "auto", "name": 'Drake', "counter": this.counterDrake},
+          { "type": "auto", "name": 'Leonardo Dicaprio', "counter": this.counterDicaprio},
+          { "type": "user", "name": clientCelebrity, "counter": this.counterUser}
+        ]
+    }
+
+      counter_sorted = counters["items"].sort(function(a,b){
+        return b.counter - a.counter;
+      })
+      console.log(counters)
       this.push(JSON.stringify(counters))
       callback()
     }
   })
-
 
   tweetCounter.counterMacron     = 0
   tweetCounter.counterBeyonce    = 0

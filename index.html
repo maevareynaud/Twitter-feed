@@ -5,11 +5,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>De qui parles-t-on le plus ?</title>
+  
   <style type="text/css">
       body {
         height: 100vh;
         background-color: #39A2F3;
-        background-image: url('./twitter.svg');
         font-family: 'Roboto';
         color: white;
         font-style: italic;
@@ -21,6 +21,10 @@
 
     h1 {
       font-size: 3rem;
+    }
+
+    h2, p {
+      margin: 0;
     }
 
     .left-part {
@@ -37,27 +41,62 @@
         border-right: none;
         border-bottom: 2px solid white;
         border-color: white;
+        color: white;
+        padding-bottom: 5px
     }
+
+    input::placeholder {
+      color: white;
+    } 
 
     button {
         border: none;
         font-weight: 600;
-        font-size: 1.2rem;
+        font-size: 1rem;
         background-color: transparent;
+        color: white;
     }
 
-    span.not(.number) {
+    span:not(.counter, .order) {
         color: transparent;
         -webkit-text-stroke: 1px white;
     }
 
+    
     .ranking {
         display: flex;
         flex-direction: column;
-        width: 50%;
+        width: 40%;
+        margin: auto 0;
+        transition: all ease-in-out .5s;
+        opacity: 1;
     }
-  </style>
 
+    .ranking p {
+      font-size: 3rem;
+      font-weight: 800;
+    }
+
+    .ranking h2 {
+      font-size: 1.3rem;
+    }
+
+    .single-celebrity {
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .order {
+      position: absolute;
+      font-weight: 800;
+      font-size: 3rem;
+      opacity: .4;
+      left: -40px;
+      z-index: 0;
+    }
+    
+
+  </style>
   <script>
       const socket = new WebSocket(`ws://${window.location.hostname}:${window.location.port}`)
       let inputVal
@@ -65,26 +104,35 @@
       function getInputValue(){
             inputVal = document.getElementById("celebrity_button").value;
             socket.send(inputVal)
+                          document.getElementById('ranking').style.opacity = 1;
+
       }
 
-
-
-      socket.addEventListener("message",  async function (event){
+      socket.addEventListener("message", async function (event){
         try {
           let data = await event.data.text()
-          data = JSON.parse(data)
+          data = JSON.parse(data)   
+          console.log(data)       
 
-            if(data.user.name){
-              const user_celebrity_name = document.getElementById('user-celebrity-name')
-              const user_counter= document.getElementById('user-counter')
-              user_celebrity_name.innerHTML = data.user.name
-              user_counter.innerHTML = data.user.counter
+          let template = "{{#items}}<div class='single-celebrity rank-{{name}}'><span class='order'>{{@index}}</span><p><span class='counter'>{{counter}} </span><span>Tweets</span></p><h2>{{name}}{{^name}} Your favorite celebrity ! {{/name}}</h2></div>{{/items}}";
+          let rendered = Mustache.render(template, data);
+          document.getElementById('ranking').innerHTML = rendered;
+
+
+          for (const [key, value, prop] of Object.entries(data['items'])) {
+            if(value.type === "user"){
+              const user_celebrity_name = document.getElementById('rank-user')
+              user_celebrity_name.innerHTML = value.name
+            } 
+
+            if(value.type == "user" && value.counter !== 0){
+              console.log('ok')
+              document.getElementById('ranking').style.opacity = 1;
             }
-
-          for (const [key, value] of Object.entries(data)) {
-            let personSelector = document.getElementById(key)
-            personSelector.innerHTML = value
           }
+
+
+
 
 
         } catch(err){
@@ -97,47 +145,20 @@
         console.log('socket open')
       })
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.1.0/mustache.min.js" integrity="sha512-HYiNpwSxYuji84SQbCU5m9kHEsRqwWypXgJMBtbRSumlx1iBB6QaxgEBZHSHEGM+fKyCX/3Kb5V5jeVXm0OglQ==" crossorigin="anonymous"></script>
+
 </head>
 <body>
 
     <div class="left-part">
       <h1>How often is your favourite </br>personality mentioned on</br><span> Twitter </span> ?</h1>
-      <input type="text" placeholder="Ex: Donald Trump" id="celebrity_button" placeholder="enter the name of your favorite celebrity"></input>
-      <button type="button" onclick="getInputValue();">Voir</button>
+      <div>
+        <input type="text" placeholder="Ex: Donald Trump" id="celebrity_button" placeholder="enter the name of your favorite celebrity"></input>
+        <button type="button" onclick="getInputValue();">Voir</button>
+      </div>
     </div>
     
 
-    <div class="ranking">
-      <div class="rank">
-        <h2>Emmanuel Macron</h2>
-        <span class="number" id="macron">0</span>
-        <p>tweets</p>
-      </div>
-      <div class="rank">
-        <h2>Drake</h2>
-        <span id="drake"0></span>
-        <p>tweets</p>
-      </div>
-      <div class="rank">
-        <h2>Mark Zuckerberg</h2>
-        <span id="zuckerberg">0</span>
-        <p>tweets</p>
-      </div>
-      <div class="rank">
-        <h2>Leonardo DiCaprio</h2>
-        <span id="dicaprio">0</span>
-        <p>tweets</p>
-      </div>
-      <div class="rank">
-        <h2>Beyonce</h2>
-        <span id="beyonce">0</span>
-        <p> tweets</p>
-      </div>
-      <div class="rank">
-        <h2 id="user-celebrity-name">A vous de jouer</h2>
-        <span id="user-counter">0</span>
-        <p> tweets</p>
-      </div>
-    </div>
+    <div class="ranking" id="ranking"></div>
   </body>
 </html>

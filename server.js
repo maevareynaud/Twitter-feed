@@ -11,7 +11,20 @@ server.on("request", async (request, response) => {
     const file = await fs.readFile("./index.html", "utf8")
     response.writeHead(200)
     response.end(file)
-  } else {
+  } else if (request.url === "/main.css") {
+    const file = await fs.readFile("./main.css", "utf8")
+    response.writeHead(200)
+    response.end(file)
+  } else if (request.url === "/twitter.png") {
+    const file = await fs.readFile("./twitter.png")
+    response.writeHead(200)
+    response.end(file)
+  } else if (request.url === "/script.js") {
+    const file = await fs.readFile("./script.js")
+    response.writeHead(200)
+    response.end(file)
+  }
+   else {
     response.writeHead(404)
     response.end()
   }

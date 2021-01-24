@@ -12,21 +12,23 @@ server.listen(3000)
 const wsServer = new WebSocket.Server({ server })
 
 wsServer.on("connection", (client) => {
+  
+  let clientCelebrity;
 
   client.on("close", () => {
     socketStream.end()
   })
-  
-  let clientCelebrity;
 
   client.on("message", (message) => {
+
+    //add new dynamic rule when client send a message
     clientCelebrity = message
     resetRules()
-
     addSearchRules([
-      {value: clientCelebrity.toString(), tag: clientCelebrity.toString()}
+      { value: clientCelebrity.toString(), tag: clientCelebrity.toString()}
     ])
 
+    //reset counters when new celebrity is send by client
     tweetCounter.counterMacron = 0
     tweetCounter.counterBeyonce = 0
     tweetCounter.counterZuckerberg = 0
@@ -75,12 +77,14 @@ wsServer.on("connection", (client) => {
           { "type": "auto", "name": 'Leonardo Dicaprio', "counter": this.counterDicaprio},
           { "type": "user", "name": clientCelebrity, "counter": this.counterUser}
         ]
-    }
+      }
 
+
+      //sort counters
       counter_sorted = counters["items"].sort(function(a,b){
         return b.counter - a.counter;
       })
-      console.log(counters)
+
       this.push(JSON.stringify(counters))
       callback()
     }
@@ -104,9 +108,6 @@ wsServer.on("connection", (client) => {
       }
     }
   )
-
-  
-
 })
 
 

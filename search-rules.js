@@ -20,7 +20,7 @@ async function deleteSearchRules(ids){
         }
     }
     const response = await needle('post', TWT_API_URL, data, options)
-    console.log("delete rules :", response.body) 
+    //console.log("delete rules :", response.body) 
 }
 
 async function addSearchRules(rules){
@@ -28,7 +28,7 @@ async function addSearchRules(rules){
         add: rules
     }
     const response = await needle('post', TWT_API_URL, data, options)
-    console.log("add rules :", response.body) 
+    //console.log("add rules :", response.body) 
 }
 
 module.exports = {

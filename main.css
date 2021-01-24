@@ -1,0 +1,120 @@
+body {
+  height: 100vh;
+  background-color: #39A2F3;
+  font-family: 'Roboto';
+  color: white;
+  font-style: italic;
+  display: flex;
+  justify-content: space-between;
+  max-width: 80vw;
+  margin: auto;
+  background-position: cover;
+  position: relative;
+  z-index: 1;
+}
+
+body::after {
+  content: '';
+  background: url(twitter.png);
+  background-position-x: -20%;
+  background-position-y: 20%;
+  opacity: .2;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-size: 600px;
+  background-repeat: no-repeat;
+  top: 10%;
+  left: -200px;
+}
+
+h1 {
+font-size: 3rem;
+}
+
+h2, p {
+margin: 0;
+}
+
+.left-part {
+  font-weight: 800;
+  width: 50%;
+  margin: auto 0;
+  position: relative;
+}
+
+.left-part img {
+  height: 100%;
+  width: auto;
+  position: absolute;
+  left: -10%;
+  
+}
+
+input {
+  font-weight: 300;
+  background-color: transparent;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 2px solid white;
+  border-color: white;
+  color: white;
+  padding-bottom: 5px
+}
+
+input::placeholder {
+color: white;
+} 
+
+button {
+  border: none;
+  font-weight: 600;
+  font-size: 1rem;
+  background-color: transparent;
+  color: white;
+}
+
+span:not(.counter, .order) {
+  color: transparent;
+  -webkit-text-stroke: 1px white;
+}
+
+
+.ranking {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  margin: auto 0;
+  transition: all ease-in-out .5s;
+  opacity: 1;
+  position: relative;
+}
+
+.ranking p {
+font-size: 3rem;
+font-weight: 800;
+}
+
+.ranking h2 {
+font-size: 1.3rem;
+}
+
+.single-celebrity {
+  margin-bottom: 30px;
+  position: relative;
+  transition: all ease-in-out .3s;
+  /*position: absolute;
+  top: 0;*/
+
+}
+
+.order {
+position: absolute;
+font-weight: 800;
+font-size: 3rem;
+opacity: .4;
+left: -40px;
+z-index: 0;
+}
